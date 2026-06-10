@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+
+    .modal{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.5);
+    z-index:1000;
+    overflow:auto;
+}
+
+    body{
+    font-family:Poppins,sans-serif;
+    padding:15px;
+    margin:0;
+    background:#f5f7fb;
+}
+
+h1{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.widget-container{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(250px,1fr));
+
+    gap:20px;
+
+    margin-bottom:30px;
+}
+
+.widget-card{
+
+    min-height:170px;
+
+    padding:25px;
+
+    border-radius:24px;
+
+    color:white;
+
+    cursor:pointer;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    box-shadow:
+    0 10px 25px rgba(0,0,0,0.12);
+
+    transition:0.3s;
+}
+
+.widget-card:hover{
+
+    transform:translateY(-5px);
+
+}
+
+.widget-title{
+
+    font-size:30px;
+
+    font-weight:800;
+
+    margin-bottom:12px;
+}
+
+.widget-card p{
+
+    margin:0;
+
+    font-size:16px;
+
+    opacity:0.95;
+}
+
+/* Branch Colors */
+
+.kalpakkam{
+
+    background:url('/static/Admin Widget.jpg');
+    background-size:cover;
+    background-position:center;
+}
+
+.spkoil{
+
+    background:url('/static/Admin Widget.jpg');
+    background-size:cover;
+    background-position:center;
+}
+
+.navy{
+
+    background:url('/static/Admin Widget.jpg');
+    background-size:cover;
+    background-position:center;
+}
+
+.anupuram{
+    background:url('/static/Admin Widget.jpg');
+    background-size:cover;
+    background-position:center;
+}
+
+.sadras{
+    background:url('/static/Admin Widget.jpg');
+    background-size:cover;
+    background-position:center;
+}
+
+.aqualily{
+    background:url('/static/Admin Widget.jpg');
+    background-size:cover;
+    background-position:center;
+}
+
+.kudankulam{
+    background:url('/static/Admin Widget.jpg');
+    background-size:cover;
+    background-position:center;
+}
+
+.kingschool{
+    background:url('/static/Admin Widget.jpg');
+    background-size:cover;
+    background-position:center;
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+    .widget-container{
+
+        grid-template-columns:1fr;
+
+        gap:15px;
+    }
+
+    .widget-card{
+
+        min-height:140px;
+
+        padding:20px;
+    }
+
+    .widget-title{
+
+        font-size:24px;
+    }
+
+}
+.student-card{
+    background:white;
+
+    padding:18px;
+
+    border-radius:18px;
+
+    margin-top:15px;
+
+    cursor:pointer;
+
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+
+    transition:0.3s;
+}
+
+.student-card:hover{
+    transform:translateY(-2px);
+}
+
+.student-card h3{
+    margin:0 0 10px 0;
+}
+
+.student-card p{
+    margin:5px 0;
+    color:#555;
+}
+
+/* Mobile */
+
+@media (max-width:768px){
+
+    body{
+        padding:12px;
+    }
+
+    h1{
+        font-size:26px;
+    }
+
+  
+    .student-card{
+        padding:15px;
+    }
+
+    .student-card h3{
+        font-size:18px;
+    }
+
+    .student-card p{
+        font-size:14px;
+    }
+}
+
+
+.modal-content{
+    background:white;
+    width:90%;
+    max-width:650px;
+    margin:20px auto;
+    padding:25px;
+    border-radius:25px;
+    max-height:90vh;
+    overflow-y:auto;
+    box-shadow:0 15px 40px rgba(0,0,0,0.15);
+}
+
+.form-title{
+    text-align:center;
+    margin-bottom:20px;
+    color:#333;
+}
+
+.section-title{
+    font-size:18px;
+    font-weight:700;
+    color:#4facfe;
+    margin:20px 0 10px;
+    border-left:4px solid #4facfe;
+    padding-left:10px;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.form-grid input,
+.form-grid select{
+    width:100%;
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:12px;
+    box-sizing:border-box;
+    outline:none;
+    transition:0.3s;
+}
+
+.form-grid input:focus,
+.form-grid select:focus{
+    border-color:#4facfe;
+    box-shadow:0 0 8px rgba(79,172,254,0.3);
+}
+
+.save-btn{
+    width:100%;
+    margin-top:20px;
+    padding:14px;
+    border:none;
+    border-radius:14px;
+    background:#a6d3f2;
+    color:white;
+    font-size:17px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.save-btn:hover{
+    transform:translateY(-2px);
+}
+
+@media(max-width:768px){
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+}
+.required{
+    color:red;
+}
+
+.form-grid{
+    display:grid;
+    gap:10px;
+}
+
+.form-grid label{
+    font-weight:600;
+    margin-top:10px;
+}
+
+.form-grid input,
+.form-grid select{
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    width:100%;
+    box-sizing:border-box;
+}
+
+.save-btn{
+    width:100%;
+    padding:14px;
+    margin-top:20px;
+    border:none;
+    border-radius:12px;
+    background:#a6d3f2;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* Register Form Responsive */
+
+@media (max-width:768px){
+
+    .form-grid{
+        grid-template-columns:1fr;
+        gap:12px;
+    }
+
+    .form-grid input,
+    .form-grid select{
+        width:100%;
+        font-size:16px;
+    }
+
+    .save-btn{
+        width:100%;
+        padding:12px;
+        font-size:15px;
+    }
+
+    .modal-content{
+        width:95%;
+        padding:15px;
+    }
+}
+
+
+
+
+
+.logout-link{
+  display:block;
+  text-align:center;
+  margin-top:15px;
+  text-decoration:none;
+  color:#ff4d4d;
+  font-weight:600;
+}
+
+
+
+
+  </style>
+</head>
+
+<body>
+
+<h1>Admin Panel</h1>
+
+<div class="widget-container">
+
+    <div class="widget-card kalpakkam"
+         onclick="loadStudents('Kalpakkam')">
+
+        <div class="widget-title">Kalpakkam</div>
+
+        <p>View Students →</p>
+
+    </div>
+
+    <div class="widget-card spkoil"
+         onclick="loadStudents('S.p koil')">
+
+        <div class="widget-title">S.p koil</div>
+
+        <p>View Students →</p>
+
+    </div>
+
+    <div class="widget-card navy"
+         onclick="loadStudents('Navy')">
+
+        <div class="widget-title">Navy</div>
+
+        <p>View Students →</p>
+
+    </div>
+
+    <div class="widget-card anupuram"
+         onclick="loadStudents('Anupuram')">
+
+        <div class="widget-title">Anupuram</div>
+
+        <p>View Students →</p>
+
+    </div>
+
+    <div class="widget-card sadras"
+         onclick="loadStudents('Sadras')">
+
+        <div class="widget-title">Sadras</div>
+
+        <p>View Students →</p>
+
+    </div>
+
+    <div class="widget-card aqualily"
+         onclick="loadStudents('Aqualily')">
+
+        <div class="widget-title">Aqualily</div>
+
+        <p>View Students →</p>
+
+    </div>
+
+    <div class="widget-card kudankulam"
+         onclick="loadStudents('Kudankulam')">
+
+        <div class="widget-title">Kudankulam</div>
+
+        <p>View Students →</p>
+
+    </div>
+
+    <div class="widget-card kingschool"
+         onclick="loadStudents('Kingschool')">
+
+        <div class="widget-title">Kingschool</div>
+
+        <p>View Students →</p>
+
+    </div>
+
+</div>
+
+    <div class="widget-card"
+     style="background:url('/static/Admin Widget.jpg');background-size:cover;background-position:center;"
+     onclick="loadCoaches()">
+
+    <div class="widget-title">
+        Coaches
+    </div>
+
+    <p>
+        View Attendance →
+    </p>
+
+</div>
+</div>
+
+<button class="save-btn" onclick="openStudentForm()">
+    ➕ Add Student
+</button>
+<a href="/" class="logout-link" onclick="logout()">
+  Logout
+</a>
+<div id="studentModal" class="modal">
+<div class="modal-content">
+
+<div class="form-grid">
+
+    <label>Student Name <span class="required">*</span></label>
+    <input id="name" type="text" required>
+
+    <label>Age <span class="required">*</span></label>
+    <input id="age" type="number" required>
+
+    <label>Date of Birth <span class="required">*</span></label>
+    <input id="dob" type="date" required>
+
+    <label>Standard <span class="required">*</span></label>
+    <input id="standard" type="text" required>
+
+    <label>School Name <span class="required">*</span></label>
+    <input id="school" type="text" required>
+
+    <label>Father Name <span class="required">*</span></label>
+    <input id="fatherName" type="text" required>
+
+    <label>Father Phone <span class="required">*</span></label>
+    <input id="fatherPhone" type="tel" maxlength="10" required>
+
+    <label>Mother Name <span class="required">*</span></label>
+    <input id="motherName" type="text" required>
+
+    <label>Mother Phone <span class="required">*</span></label>
+    <input id="motherPhone" type="tel" maxlength="10" required>
+
+    <label>Student Phone <span class="required">*</span></label>
+    <input id="studentPhone" type="tel" maxlength="10" required>
+
+    <label>Join Year <span class="required">*</span></label>
+    <select id="joinYear" required>
+        <option value="">Select Join Year</option>
+        <option>2020</option>
+        <option>2021</option>
+        <option>2022</option>
+        <option>2023</option>
+        <option>2024</option>
+        <option>2025</option>
+        <option>2026</option>
+        <option>2027</option>
+        <option>2028</option>
+        <option>2029</option>
+    </select>
+
+    <label>Batch <span class="required">*</span></label>
+    <input id="batch" type="text" required>
+
+    <label>Court <span class="required">*</span></label>
+    <input id="court" type="text" required>
+
+    <label>Session <span class="required">*</span></label>
+    <select id="session" required>
+        <option value="">Select Session</option>
+        <option>Morning</option>
+        <option>Evening</option>
+        <option>Morning and Evening</option>
+    </select>
+
+    <label>Branch <span class="required">*</span></label>
+    <select id="branch" required>
+        <option value="">Select Branch</option>
+        <option>Kalpakkam</option>
+    <option>S.p koil</option>
+    <option>Navy</option>
+    <option>Anupuram</option>
+    <option>Sadras</option>
+    <option>Aqualily</option>
+    <option>Kudankulam</option>
+    <option>Kingschool</option>
+
+    </select>
+
+</div>
+
+<button class="save-btn" onclick="saveStudent()">
+    Save Student
+</button>
+
+<button class="save-btn" onclick="closeStudentForm()">
+    Close
+</button>
+
+</div>
+</div>
+
+<div id="students"></div>
+
+<script>
+
+
+window.onload = function(){
+
+    let admin = localStorage.getItem("headCoach");
+
+    if(!admin){
+        window.location.href = "/";
+    }
+
+};
+    
+
+function saveStudent(){
+const fields = [
+    "name",
+    "age",
+    "dob",
+    "standard",
+    "school",
+    "fatherName",
+    "fatherPhone",
+    "motherName",
+    "motherPhone",
+    "studentPhone",
+    "joinYear",
+    "batch",
+    "court",
+    "session",
+    "branch"
+];
+
+for(let field of fields){
+
+    let value = document.getElementById(field).value.trim();
+
+    if(value === ""){
+
+        alert("Please fill all fields.");
+
+        document.getElementById(field).focus();
+
+        return;
+    }
+}
+
+const fatherPhone = document.getElementById("fatherPhone").value.trim();
+const motherPhone = document.getElementById("motherPhone").value.trim();
+const studentPhone = document.getElementById("studentPhone").value.trim();
+
+if(!/^\d{10}$/.test(fatherPhone)){
+    alert("Father Phone must be 10 digits");
+    return;
+}
+
+if(!/^\d{10}$/.test(motherPhone)){
+    alert("Mother Phone must be 10 digits");
+    return;
+}
+
+if(!/^\d{10}$/.test(studentPhone)){
+    alert("Student Phone must be 10 digits");
+    return;
+}
+
+fetch("/add-student/", {
+
+    method:"POST",
+
+    headers:{
+        "Content-Type":"application/json"
+    },
+
+    body:JSON.stringify({
+
+        name: document.getElementById("name").value,
+        age: document.getElementById("age").value,
+
+        dob: document.getElementById("dob").value,
+        standard: document.getElementById("standard").value,
+        school: document.getElementById("school").value,
+
+        fatherName: document.getElementById("fatherName").value,
+        fatherPhone: fatherPhone,
+
+        motherName: document.getElementById("motherName").value,
+        motherPhone: motherPhone,
+
+        studentPhone: studentPhone,
+
+        joinYear: document.getElementById("joinYear").value,
+
+        batch: document.getElementById("batch").value,
+        court: document.getElementById("court").value,
+
+        session: document.getElementById("session").value,
+        branch: document.getElementById("branch").value
+
+    })
+
+})
+
+.then(res => res.json())
+
+.then(data => {
+
+    alert("🎉 Student Added Successfully");
+
+    location.reload();
+
+})
+
+.catch(err => {
+
+    console.log(err);
+
+    alert("❌ Error Saving Student");
+
+});
+
+}
+
+
+function openStudentForm(){
+    document.getElementById("studentModal").style.display = "block";
+}
+
+function closeStudentForm(){
+    document.getElementById("studentModal").style.display = "none";
+}
+
+
+
+function loadStudents(branch){
+
+fetch(`http://127.0.0.1:8000/admin/students/?branch=${branch}`)
+
+.then(res => res.json())
+
+.then(data => {
+
+    let html = "";
+
+    data.forEach(s => {
+
+        html += `
+
+        <div class="student-card"
+
+        onclick="openProfile('${s._id}')">
+
+            <h3>${s.name}</h3>
+
+            <p>${s.batch}</p>
+
+            <p>${s.session}</p>
+
+        </div>
+
+        `;
+    });
+
+    document.getElementById("students").innerHTML = html;
+
+});
+
+}
+
+function openProfile(id){
+
+    window.location.href = `/student/${id}/`;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+function loadCoaches(){
+
+fetch("/coach-attendance/")
+
+.then(res => res.json())
+
+.then(data => {
+
+    let html = "";
+
+    data.forEach(c => {
+
+        html += `
+        <div class="student-card"
+             onclick="showCoachAttendance('${c.name}')">
+
+            <h3>${c.name}</h3>
+
+            <p>View Checkin / Checkout</p>
+
+        </div>
+        `;
+    });
+
+    document.getElementById("students").innerHTML = html;
+
+});
+
+}
+function showCoachAttendance(name){
+
+fetch(`/coach-attendance/${name}/`)
+
+.then(res => res.json())
+
+.then(logs => {
+
+    let html = `
+    <h2>${name} Attendance</h2>
+    `;
+
+    logs.forEach(log => {
+
+        html += `
+        <div class="student-card">
+
+            <p><b>Date:</b> ${log.date}</p>
+
+            <p><b>Location:</b> ${log.location}</p>
+
+            <p><b>Check In:</b> ${log.inTime}</p>
+
+            <p><b>Check Out:</b>
+                ${log.outTime || "Active"}
+            </p>
+
+        </div>
+        `;
+    });
+
+    document.getElementById("students").innerHTML = html;
+
+});
+
+}
+
+
+
+</script>
+
+</body>
+</html>

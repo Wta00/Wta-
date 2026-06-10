@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WTA Attendance</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif;
+  padding: 20px;
+  background:#fff;
+  margin: 0;
+}
+
+
+#loader{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100vh;
+
+    background:white;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    z-index:999999;
+
+    transition:0.5s;
+}
+
+.loader-logo{
+    width:200px;
+    height:300px;
+
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+    0%{
+        transform:scale(1);
+        opacity:1;
+    }
+
+    50%{
+        transform:scale(1.08);
+        opacity:0.8;
+    }
+
+    100%{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: black;
+  margin-left: 15px;
+}
+
+h2 {
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: black;
+}
+
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 12px 18px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  z-index: 999;
+}
+
+.header-left{
+    display:flex;
+    align-items:center;
+}
+
+.logo{
+    width:50px;
+    height:50px;
+    border-radius:14px;
+    object-fit:cover;
+}
+
+/*  THEME TOGGLE */
+
+.theme-switch {
+  position: relative;
+  width: 52px;
+  height: 28px;
+  display: inline-block;
+    margin-right: 23px;
+
+}
+
+.theme-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background: #dbeafe;
+  border-radius: 50px;
+  transition: 0.3s;
+}
+
+.toggle-slider::before {
+  content: "☀️";
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  left: 3px;
+  top: 3px;
+
+  background: white;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 12px;
+
+  transition: 0.3s;
+}
+
+.theme-switch input:checked + .toggle-slider {
+  background: #48426d;
+}
+
+.theme-switch input:checked + .toggle-slider::before {
+  transform: translateX(24px);
+  content: "🌙";
+}
+
+
+.dark-mode {
+  background: #1e1e2f;
+  color: white;
+}
+
+.dark-mode .card,
+.dark-mode tr,
+.dark-mode .top-bar {
+  background: #2b2b40;
+  color: white;
+}
+
+.dark-mode input,
+.dark-mode select {
+  background: #3a3a55;
+  color: white;
+  border: none;
+}
+
+.dark-mode .section-title {
+  color: white;
+}
+.dark-mode .sort-menu{
+
+    background: rgba(43,43,64,0.96);
+
+    color: white;
+
+    box-shadow: 0 -10px 40px rgba(0,0,0,0.35);
+}
+
+.dark-mode .sort-menu div{
+
+    color: white;
+}
+
+.dark-mode .sort-menu div:hover{
+
+    background: rgba(255,255,255,0.08);
+}
+
+.dark-mode .sort-menu::before{
+
+    background: rgba(255,255,255,0.25);
+}
+
+.dark-mode .sort-btn{
+
+    background: #2b2b40;
+
+    color: white;
+}
+
+.dark-mode .sort-btn i,
+.dark-mode .sort-menu i{
+
+    color: #a6d3f2;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+input, select {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  font-family: 'Poppins';
+  transition: 0.3s;
+}
+.top-bar select option {
+  background: #a6d4f2aa;
+  color: white;
+  border-radius: 15px;
+}
+
+input:focus, select:focus {
+  outline: none;
+  box-shadow: 0 0 8px #a6d3f2;
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 12px;
+  border-radius: 16px;
+}
+
+thead { display: none; }
+
+tr {
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+  border-radius: 16px;
+  transition: 0.2s;
+}
+
+tr:hover { transform: translateY(-2px); }
+
+td {
+  padding: 16px;
+  text-align: center;
+}
+
+td:first-child {
+  font-weight: 500;
+  text-align: left;
+}
+
+.switch {
+  position: relative;
+  width: 44px;
+  height: 24px;
+}
+
+.switch input { display: none; }
+
+.slider {
+  position: absolute;
+  background: #e5e7eb;
+  border-radius: 50px;
+  width: 100%;
+  height: 100%;
+  transition: 0.3s;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  top: 2px;
+  left: 2px;
+  transition: 0.3s;
+}
+
+.switch input:checked + .slider {
+  background: #3a3a55;
+}
+
+.switch input:checked + .slider::before {
+  transform: translateX(20px);
+}
+
+.fee-switch input:checked + .slider {
+  background: #a6d3f2;
+}
+
+/* BUTTONS */
+button {
+  margin-top: 15px;
+  padding: 12px;
+  width: 100%;
+  background:#a6d3f2;
+  color: #fff;
+  border: none;
+  font-size: 15px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+button:hover {
+  transform: scale(1.03);
+  opacity: 0.95;
+}
+
+div > button {
+  width: auto;
+  padding: 10px 16px;
+  margin-right: 8px;
+}
+
+/* bonjour */
+
+
+#loginScreen{
+    position:fixed;
+    inset:0;
+
+    background:#fff7fa;
+
+    justify-content:center;
+    align-items:center;
+
+    padding:20px;
+
+    z-index:99999;
+
+    display:none;
+}
+
+.login-container{
+    width:100%;
+    max-width:390px;
+}
+
+.hero{
+    width:100%;
+    height:250px;
+
+    object-fit:cover;
+
+    border-radius:32px;
+
+    display:block;
+}
+
+.title{
+    text-align:center;
+
+    color:#a6d3f2;
+
+    font-size:34px;
+    font-weight:800;
+
+    margin-top:22px;
+    margin-bottom:26px;
+}
+
+.input-box{
+    margin-bottom:18px;
+}
+
+.input-box input{
+    width:100%;
+
+    padding:18px 20px;
+
+    border:none;
+
+    border-radius:22px;
+
+    background:#fff;
+
+    font-size:16px;
+
+    outline:none;
+
+    box-shadow:0 4px 12px rgba(0,0,0,0.03);
+}
+
+.password-box{
+    position:relative;
+}
+
+.password-box i{
+    position:absolute;
+
+    right:20px;
+    top:50%;
+
+    transform:translateY(-50%);
+
+    color:#8a8a8a;
+
+    cursor:pointer;
+}
+
+.signin-btn{
+    width:100%;
+
+    border:none;
+
+    padding:18px;
+
+    border-radius:24px;
+
+    background:#8bbce6;
+
+    color:#2b2b40;
+
+    font-size:22px;
+    font-weight:700;
+
+    cursor:pointer;
+}
+
+#error{
+    text-align:center;
+    color:#ff4d6d;
+    margin-top:10px;
+}
+
+.app-container {
+  max-width: 900px;
+  margin: auto;
+  padding-top: 80px;
+}
+
+.card {
+  background: #fff;
+  padding: 15px;
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.student-list {
+  margin-top: 10px;
+}
+
+.switch {
+  display: inline-block;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider:before {
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* BOTTOM NAV */
+.bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 65px;
+    background: #ffffff;
+    border-top: 1px solid #eee;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 3000;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
+}
+
+.bottom-nav a {
+    text-decoration: none;
+    color: #444;
+    font-size: 12px;
+    font-weight: 600;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+
+    transition: 0.3s;
+}
+
+.bottom-nav a i {
+    font-size: 20px;
+    color: #a6d3f2;
+    transition: 0.3s;
+}
+
+.bottom-nav a:hover i {
+    color: #3a3a55;
+    transform: translateY(-2px);
+}
+
+
+.single-widget {
+  width: 72%;
+  height: 190px;
+
+  padding: 20px;
+  border-radius: 16px;
+
+  background: url('https://img.freepik.com/premium-photo/painting-tennis-player-light-blue-color-background_1173099-19644.jpg') no-repeat center center;
+
+  background-size: cover;   
+  background-position: center;
+
+  color: #fff;
+  text-align: left;
+
+  margin: 70px auto 40px auto;
+
+  font-size: 15px;
+
+  overflow: hidden;
+}
+
+.single-widget .h6 {
+  font-size: 30px;
+  font-weight: 800;
+  text-align: left;
+  margin-top: 15px;
+}
+
+.single-widget p {
+  text-align: left;
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 8px;
+}
+
+/* RESPONSIVE  */
+
+
+@media (max-width: 768px) {
+
+  body {
+    padding: 6px;
+     background:#fff;
+  }
+
+  .top-bar {
+    flex-direction: row;
+    gap: 8px;
+  }
+
+  .top-bar input,
+  .top-bar select {
+    width: 100%;
+    padding: 8px 10px;
+  }
+
+  .top-bar input {
+  flex: 2;
+}
+
+.top-bar select {
+  flex: 1;
+}
+
+  div > button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .app-container {
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .card {
+    padding: 10px;
+    border-radius: 12px;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
+
+  .action-buttons button {
+    width: 100%;
+  }
+
+  .student-list {
+    overflow-x: auto;
+  }
+
+  table {
+    min-width: 480px;
+  }
+
+  td {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+ .single-widget {
+    margin-top: 70px;
+    font-size: 16px;
+    margin-bottom: 45px;
+    width: 80%;
+    min-height: 140px; 
+    padding: 12px;     
+    align-items: center;
+}
+
+  .bottom-nav {
+    display: flex;
+  }
+
+}
+
+/*  MOBILE */
+@media (max-width: 768px) {
+
+  table {
+    min-width: 100%;
+  }
+
+  tr.student-row {
+    display: block;
+    padding: 12px;
+    margin-bottom: 10px;
+  }
+
+  td {
+    display: block;
+    text-align: left;
+    padding: 8px 0;
+  }
+
+  .student-name {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .toggle-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .label {
+    font-size: 14px;
+    color: #555;
+  }
+}
+
+
+
+
+
+
+.custom-alert{
+    position: fixed;
+    top: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(14px);
+
+    color: #ff5c93;
+
+    padding: 16px 24px;
+    border-radius: 22px;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    border: 2px solid #ffd6e7;
+
+    box-shadow:
+    0 8px 25px rgba(255,105,180,0.15),
+    inset 0 0 8px rgba(255,255,255,0.6);
+
+    z-index: 99999;
+
+    animation: cutePop 0.4s ease;
+}
+
+@keyframes cutePop{
+    0%{
+        opacity:0;
+        transform:translateX(-50%) scale(0.7);
+    }
+
+    100%{
+        opacity:1;
+        transform:translateX(-50%) scale(1);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.sort-menu{
+
+    position: fixed;
+
+    left: 50%;
+    bottom: 20px;
+
+    transform: translateX(-50%);
+
+    width: 88%;
+    max-width: 380px;
+
+    background: rgba(255,255,255,0.97);
+
+    backdrop-filter: blur(20px);
+
+    border-radius: 30px 30px 24px 24px;
+
+    padding: 18px;
+
+    box-shadow: 0 -10px 40px rgba(0,0,0,0.15);
+
+    display: none;
+
+    z-index: 99999;
+
+    animation: sheetUp 0.28s ease;
+}
+
+.sort-menu::before{
+
+    content: "";
+
+    width: 60px;
+    height: 5px;
+
+    background: #dcdcdc;
+
+    border-radius: 50px;
+
+    position: absolute;
+
+    top: 10px;
+    left: 50%;
+
+    transform: translateX(-50%);
+}
+
+.sort-menu div{
+
+    padding: 16px 18px;
+
+    border-radius: 18px;
+
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+
+    margin-top: 8px;
+}
+
+.sort-menu div:hover{
+
+    background: #f3f8ff;
+
+}
+
+.sort-menu i{
+
+    color: #8bbce6;
+}
+
+@keyframes sheetUp{
+
+    from{
+        opacity: 0;
+        transform: translateX(-50%) translateY(40px);
+    }
+
+    to{
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+
+
+
+
+
+
+  </style>
+</head>
+<body>
+
+<div id="loader">
+
+    <img src="/static/logo.png" class="loader-logo">
+
+</div>
+<div id="loginScreen">
+
+<div class="login-container">
+    <video class="hero" autoplay muted loop playsinline>
+        <source src="/static/Intro.mp4" type="video/mp4">
+    </video>
+
+    <h1 class="title">BONJOUR!!</h1>
+
+
+    <div class="input-box">
+        <input type="text" id="name" placeholder="Coach Name">
+    </div>
+    <div class="input-box password-box">
+
+        <input type="password"
+        id="pass"
+        placeholder="Passcode">
+
+        <i class="fa-solid fa-eye"
+        onclick="togglePassword()"></i>
+
+    </div>
+
+    <button class="signin-btn"
+    onclick="login()">
+        Sign In
+    </button>
+
+    <p id="error"></p>
+
+</div>
+
+</div>
+
+<div class="app-container">
+    
+<div class="header">
+
+  <div class="header-left">
+    <img src="/static/logo.png" class="logo">
+  </div>
+
+  <label class="theme-switch">
+    <input type="checkbox" id="themeToggle">
+    <span class="toggle-slider"></span>
+  </label>
+
+</div>
+
+   <div class="widget single-widget" onclick="goToCoach()">
+  <div class="icon"></div>
+  <div class="h6">Coach Panel</div>
+  <p>Check In / Out</p>
+</div>
+
+
+   <h3 class="section-title">Student Attendance</h3>
+
+
+<div class="card top-bar">
+
+    <input type="text"
+    placeholder=" Search student..."
+    onkeyup="searchStudent(this.value)">
+
+    <div class="sort-dropdown">
+
+        <button class="sort-btn" onclick="toggleSortMenu()">
+            <i class="fa-solid fa-arrow-down-wide-short"></i>
+            Sort
+        </button>
+
+        <div class="sort-menu" id="sortMenu">
+
+            <div onclick="sortStudents('az'); closeSortMenu();">
+                <i class="fa-solid fa-arrow-down-a-z"></i>
+                A-Z
+            </div>
+            
+            <div onclick="sortStudents('batch1')">
+    Batch 1
+</div>
+
+<div onclick="sortStudents('batch2')">
+    Batch 2
+</div>
+
+<div onclick="sortStudents('morning')">
+    Morning
+</div>
+
+<div onclick="sortStudents('evening')">
+    Evening
+</div>
+
+<div onclick="sortStudents('morningEvening')">
+    Morning and Evening
+</div>
+
+            <div onclick="sortStudents('new'); closeSortMenu();">
+                <i class="fa-solid fa-bolt"></i>
+                New Activity
+            </div>
+
+
+
+            <div onclick="closeSortMenu()">
+                <i class="fa-solid fa-xmark"></i>
+                Cancel
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+    <div class="student-list">
+        <table>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
+
+    <button onclick="submitData()"> Submit Attendance</button>
+<br> <br> <br> <br>
+    <div class="bottom-nav">
+    <a href="/">
+        <i class="fa-solid fa-house"></i>
+        <!-- <span>Home</span> -->
+    </a>
+
+    <a href="/coach-page/">
+        <i class="fa-solid fa-user-tie"></i>
+        <!-- <span>Coach</span> -->
+    </a>
+</div>
+
+
+
+<script>
+
+function goToCoach() {
+    window.location.href = "/coach-page/";
+}
+
+window.onload = function () {
+
+    let coach = localStorage.getItem("coachName");
+
+    if (!coach) {
+        document.getElementById("loginScreen").style.display = "flex";
+    }
+};
+
+function login() {
+
+    let name = document.getElementById("name").value.trim().toLowerCase();
+    let pass = document.getElementById("pass").value;
+
+    let headCoach = {
+    "admin": "9999"
+    };
+
+    let valid = {
+    "veslin": "1111",
+    "dani": "2222",
+    "sujith": "3333",
+    "jesurajan": "4444",
+    "wta": "5555"
+    };
+
+    // HEAD COACH LOGIN
+    if (headCoach[name] === pass) {
+
+        localStorage.setItem("headCoach", name);
+
+        window.location.href = "/admin-page/";
+    }
+
+    // NORMAL COACH LOGIN
+    else if (valid[name] === pass) {
+
+        localStorage.setItem("coachName", name);
+
+        document.getElementById("loginScreen").style.display = "none";
+    }
+
+    else {
+
+        document.getElementById("error").innerText =
+        "Invalid login!";
+    }
+}
+
+
+function togglePassword(){
+
+    const password = document.getElementById("pass");
+
+    if(password.type === "password"){
+        password.type = "text";
+    }else{
+        password.type = "password";
+    }
+
+}
+
+
+let students = [];
+
+//  students
+let coach = localStorage.getItem("coachName");
+
+fetch(`http://127.0.0.1:8000/students/?coach=${coach}`)
+.then(res => res.json())
+.then(data => {
+
+    students = data;
+    renderTable(data);
+});
+//  Render table
+function renderTable(data) {
+    let html = "";
+
+    data.forEach(s => {
+        html += `
+        <tr class="student-row">
+
+            <td class="student-name">${s.name}</td>
+
+            <td class="toggle-box">
+                <span class="label">Present</span>
+                <label class="switch">
+                    <input type="checkbox" id="att_${s._id}">
+                    <span class="slider"></span>
+                </label>
+            </td>
+
+            <td class="toggle-box">
+                <span class="label">Paid</span>
+                <label class="switch fee-switch">
+                    <input type="checkbox" id="fee_${s._id}">
+                    <span class="slider"></span>
+                </label>
+                <input type="file" id="file_${s._id}" style="display:none;" accept="image/*">
+            </td>
+
+        </tr>
+        `;
+    });
+
+    document.getElementById("tableBody").innerHTML = html;
+
+    data.forEach(s => {
+
+    document
+    .getElementById("fee_" + s._id)
+    .addEventListener("click", function(e){
+
+        e.preventDefault();
+
+        openFile(s._id);
+
+    });
+
+});
+
+}
+
+function openFile(id) {
+
+    const checkbox = document.getElementById("fee_" + id);
+
+    const fileInput = document.getElementById("file_" + id);
+
+    checkbox.checked = false;
+
+    fileInput.value = "";
+
+    fileInput.click();
+
+    fileInput.onchange = function () {
+
+        if (fileInput.files.length > 0) {
+
+            checkbox.checked = true;
+
+        } else {
+
+            checkbox.checked = false;
+
+        }
+
+    };
+
+}
+
+function submitData() {
+
+    students.forEach(s => {
+
+        let attendanceEl = document.getElementById("att_" + s._id);
+        let feeEl = document.getElementById("fee_" + s._id);
+        let fileInput = document.getElementById("file_" + s._id);
+
+        let attendance = attendanceEl.checked;
+        let fee = feeEl.checked;
+
+
+fetch("http://127.0.0.1:8000/attendance/", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+        studentId: s._id,
+        present: attendance
+    })
+});
+
+
+if (fee) {
+
+    let file = fileInput.files[0];
+
+  
+
+    if (!file) {
+
+        showAlert("Upload payment proof for " + s.name);
+
+        return;
+    }
+
+
+    let reader = new FileReader();
+
+    reader.onloadend = function () {
+
+        fetch("http://127.0.0.1:8000/fees/", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                studentId: s._id,
+                month: "2026-04",
+                proof: reader.result
+            })
+        }).then(() => {
+
+            console.log("Fees sent with image for", s.name);
+
+        });
+
+    };
+
+    reader.readAsDataURL(file);
+}
+
+});
+showAlert(" Attendance saved!");
+
+setTimeout(() => {
+
+    document.body.style.transition = "0.4s";
+    document.body.style.opacity = "0.6";
+
+    setTimeout(() => {
+
+        document.body.style.opacity = "1";
+
+        students.forEach(s => {
+
+            document.getElementById("att_" + s._id).checked = false;
+            document.getElementById("fee_" + s._id).checked = false;
+
+            document.getElementById("file_" + s._id).value = "";
+
+        });
+
+    }, 500);
+
+}, 1200);
+}
+
+// sort & search
+function searchStudent(value) {
+    let filtered = students.filter(s =>
+        s.name.toLowerCase().includes(value.toLowerCase())
+    );
+
+    renderTable(filtered);
+}
+
+
+function sortStudents(type) {
+
+    let sorted = [...students];
+
+    if (type === "az") {
+
+        sorted.sort((a, b) =>
+            a.name.localeCompare(b.name)
+        );
+
+    }
+
+    else if (type === "new") {
+
+        sorted.sort((a, b) =>
+            new Date(b.joinDate) -
+            new Date(a.joinDate)
+        );
+
+    }
+
+    else if (type === "batch1") {
+
+    sorted = students.filter(
+        s => String(s.batch).toLowerCase().includes("1")
+    );
+
+}
+
+else if (type === "batch2") {
+
+    sorted = students.filter(
+        s => String(s.batch).toLowerCase().includes("2")
+    );
+
+}
+
+ else if (type === "morning") {
+
+    sorted = students.filter(
+        s => s.session === "Morning"
+    );
+
+}
+
+else if (type === "evening") {
+
+    sorted = students.filter(
+        s => s.session === "Evening"
+    );
+
+}
+
+else if (type === "morningEvening") {
+
+    sorted = students.filter(
+        s => s.session === "Morning and Evening"
+    );
+
+}
+
+    else if (type === "all") {
+
+        sorted = [...students];
+
+    }
+
+    renderTable(sorted);
+}
+
+
+
+
+
+function toggleSortMenu(){
+
+    document.getElementById("sortMenu").style.display = "block";
+
+}
+
+function closeSortMenu(){
+
+    document.getElementById("sortMenu").style.display = "none";
+
+}
+
+
+
+
+
+
+window.addEventListener("click", function(e){
+
+    if(!e.target.closest(".sort-dropdown")){
+
+        document.getElementById("sortMenu").style.display = "none";
+
+    }
+
+});
+
+
+
+
+
+const toggle = document.getElementById("themeToggle");
+
+toggle.addEventListener("change", () => {
+
+  if(toggle.checked){
+    document.body.classList.add("dark-mode");
+  } else {
+    document.body.classList.remove("dark-mode");
+  }
+
+});
+
+
+
+
+
+
+
+
+
+function showAlert(message){
+
+    const alertBox = document.createElement("div");
+
+    alertBox.className = "custom-alert";
+    alertBox.innerText = message;
+
+    document.body.appendChild(alertBox);
+
+    setTimeout(() => {
+        alertBox.remove();
+    }, 1200);
+}
+
+
+
+
+
+
+
+
+window.addEventListener("load", () => {
+
+    setTimeout(() => {
+
+        document.getElementById("loader").style.opacity = "0";
+
+        setTimeout(() => {
+            document.getElementById("loader").style.display = "none";
+        }, 500);
+
+    }, 1500);
+
+});
+
+
+
+</script>
+
+
+
+</body>
+</html>

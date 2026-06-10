@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+
+        body{
+    font-family:Poppins,sans-serif;
+    background:#f5f7fb;
+    padding:15px;
+    margin:0;
+}
+
+.container{
+    max-width:900px;
+    margin:auto;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:20px;
+    margin-bottom:20px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+h1{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+h2{
+    margin-top:0;
+}
+
+.detail{
+    margin-bottom:12px;
+    font-size:16px;
+    word-break:break-word;
+}
+
+img{
+    width:100%;
+    max-width:300px;
+    border-radius:16px;
+    margin-top:10px;
+    display:block;
+}
+
+/* Mobile */
+@media (max-width:768px){
+
+    body{
+        padding:10px;
+    }
+
+    .card{
+        padding:15px;
+        border-radius:16px;
+    }
+
+    h1{
+        font-size:24px;
+    }
+
+    h2{
+        font-size:20px;
+    }
+
+    .detail{
+        font-size:15px;
+    }
+
+    img{
+        max-width:100%;
+    }
+}
+
+    </style>
+
+</head>
+
+<body>
+<div class="container">
+<h1>Student Profile</h1>
+
+<div class="card">
+
+    <div class="detail">
+        Name: {{ student.name }}
+    </div>
+
+    <div class="detail">
+        Age: {{ student.age }}
+    </div>
+
+    <div class="detail">
+        Father: {{ student.fatherName }}
+    </div>
+
+    <div class="detail">
+        Mother: {{ student.motherName }}
+    </div>
+
+    <div class="detail">
+        Father Phone: {{ student.fatherPhone }}
+    </div>
+
+    <div class="detail">
+        Mother Phone: {{ student.motherPhone }}
+    </div>
+
+    <div class="detail">
+        Batch: {{ student.batch }}
+    </div>
+
+    <div class="detail">
+        Session: {{ student.session }}
+    </div>
+
+    <div class="detail">
+        Court: {{ student.court }}
+    </div>
+
+    <div class="detail">
+        Branch: {{ student.branch }}
+    </div>
+
+    <div class="detail">
+    D.O.B: {{ student.dob }}
+</div>
+
+<div class="detail">
+    Standard: {{ student.standard }}
+</div>
+
+<div class="detail">
+    School: {{ student.school }}
+</div>
+
+<div class="detail">
+    Join Year: {{ student.joinYear }}
+</div>
+
+</div>
+
+<div class="card">
+
+    <h2>Attendance</h2>
+
+    {% for day, status in student.attendance.items %}
+
+        <div class="detail">
+
+            {{ day }} :
+
+            {% if status %}
+                Present ✅
+            {% else %}
+                Absent ❌
+            {% endif %}
+
+        </div>
+
+    {% empty %}
+
+        <p>No attendance records.</p>
+
+    {% endfor %}
+
+</div>
+
+<h2>Fees & Proofs</h2>
+
+{% for month, fee in student.fees.items %}
+
+<div class="card">
+
+    <h3>{{ month }}</h3>
+
+    <p>
+        Paid:
+        {% if fee.paid %}
+            ✅
+        {% else %}
+            ❌
+        {% endif %}
+    </p>
+
+    <p>
+        Date: {{ fee.datePaid }}
+    </p>
+
+    {% if fee.proofs %}
+
+        {% for proof in fee.proofs %}
+
+            <img src="{{ proof }}"
+                 style="width:200px;
+                        border-radius:12px;
+                        margin-top:10px;">
+
+        {% endfor %}
+
+    {% endif %}
+
+</div>
+
+{% empty %}
+
+<div class="card">
+    No fee records found.
+</div>
+
+{% endfor %}
+</div>
+</body>
+</html>

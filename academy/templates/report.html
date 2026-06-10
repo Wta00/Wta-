@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Monthly Report</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    background:#fff7fa;
+    padding:20px;
+}
+
+.title{
+    text-align:center;
+    color:#f5a9c2;
+    font-size:32px;
+    font-weight:700;
+    margin-bottom:25px;
+}
+
+#report{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+}
+
+.report-card{
+    background:white;
+    padding:20px;
+    border-radius:24px;
+
+    box-shadow:0 6px 18px rgba(0,0,0,0.05);
+}
+
+.student-name{
+    font-size:22px;
+    font-weight:700;
+    color:#d94d75;
+    margin-bottom:14px;
+}
+
+.stat{
+    display:flex;
+    justify-content:space-between;
+
+    margin-top:10px;
+
+    font-size:16px;
+}
+
+.present{
+    color:#16a34a;
+    font-weight:600;
+}
+
+.absent{
+    color:#ef4444;
+    font-weight:600;
+}
+
+</style>
+</head>
+<body>
+
+<h1 class="title">Monthly Report</h1>
+
+<div id="report"></div>
+
+<script>
+
+fetch("http://127.0.0.1:8000/report/")
+.then(res => res.json())
+.then(data => {
+
+    let html = "";
+
+    data.forEach(student => {
+
+        html += `
+
+        <div class="report-card">
+
+            <div class="student-name">
+                ${student.name}
+            </div>
+
+            <div class="stat">
+                <span>Present Days</span>
+                <span class="present">
+                    ${student.present_days}
+                </span>
+            </div>
+
+            <div class="stat">
+                <span>Absent Days</span>
+                <span class="absent">
+                    ${student.absent_days}
+                </span>
+            </div>
+
+        </div>
+
+        `;
+    });
+
+    document.getElementById("report").innerHTML = html;
+
+});
+
+</script>
+
+</body>
+</html>

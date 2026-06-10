@@ -1,0 +1,545 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+body {
+  padding: 70px 12px 20px; 
+  background: linear-gradient(135deg, #eef2ff, #f0fdf4);
+  margin: 0;
+  font-family: "Open Sans", sans-serif;
+}
+
+
+h2 {
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color:black;
+}
+
+h3 {
+  font-size: 23px;
+  font-weight: 500;
+  color: black;
+  margin-left: 15px;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 12px 18px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  z-index: 999;
+}
+
+
+.header-left{
+    display:flex;
+    align-items:center;
+}
+
+.logo{
+    width:50px;
+    height:50px;
+    border-radius:14px;
+    object-fit:cover;
+}
+
+
+.theme-switch {
+  position: relative;
+  width: 52px;
+  height: 28px;
+  display: inline-block;
+    margin-right: 23px;
+
+}
+
+.theme-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background: #dbeafe;
+  border-radius: 50px;
+  transition: 0.3s;
+}
+
+.toggle-slider::before {
+  content: "☀️";
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  left: 3px;
+  top: 3px;
+
+  background: white;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 12px;
+
+  transition: 0.3s;
+}
+
+.theme-switch input:checked + .toggle-slider {
+  background: #48426d;
+}
+
+.theme-switch input:checked + .toggle-slider::before {
+  transform: translateX(24px);
+  content: "🌙";
+}
+
+
+.dark-mode {
+  background: #1e1e2f;
+  color: white;
+}
+
+.dark-mode .card,
+.dark-mode tr,
+.dark-mode .top-bar {
+  background: #2b2b40;
+  color: white;
+}
+
+.dark-mode input,
+.dark-mode select {
+  background: #3a3a55;
+  color: white;
+  border: none;
+}
+
+.dark-mode .section-title {
+  color: white;
+}
+
+.dark-mode h3 {
+  color: white;
+}
+
+
+
+
+
+
+
+.container {
+  max-width: 500px;
+  margin: auto;
+}
+
+
+.card {
+  background: white;
+  padding: 18px;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+}
+
+
+input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  margin: 10px 0;
+  font-size: 14px;
+}
+
+
+button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  color: white;
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  background:#a6d3f2;
+  transition: 0.2s ease;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+
+.bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 65px;
+    background: #ffffff;
+    border-top: 1px solid #eee;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 3000;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
+}
+
+.bottom-nav a {
+    text-decoration: none;
+    color: #444;
+    font-size: 12px;
+    font-weight: 600;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+
+    transition: 0.3s;
+}
+
+.bottom-nav a i {
+    font-size: 20px;
+    color: #a6d3f2;
+    transition: 0.3s;
+}
+
+.bottom-nav a:hover i {
+    color: #3a3a55;
+    transform: translateY(-2px);
+}
+
+
+@media (max-width: 768px) {
+
+
+  .bottom-nav a:hover i {
+    color: #3a3a55;
+    transform: translateY(-2px);
+}
+
+  body {
+    padding: 70px 10px 10px;
+    background: white;
+  }
+
+    .bottom-nav {
+    display: flex;
+  }
+
+  .card {
+    padding: 16px;
+  }
+
+  button {
+    font-size: 15px;
+    padding: 13px;
+  }
+
+  input {
+    padding: 12px;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
+}
+
+input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1.5px solid #e5e7eb;
+  margin: 12px 0;
+  font-size: 16px; 
+  outline: none;
+  background: #f9fafb;
+  transition: all 0.2s ease;
+  box-sizing: border-box; 
+}
+
+input:focus {
+  border-color:#a6d3f2;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+
+input::placeholder {
+  color: #9ca3af;
+}
+
+
+
+
+.logout-link{
+  display:block;
+  text-align:center;
+  margin-top:15px;
+  text-decoration:none;
+  color:#ff4d4d;
+  font-weight:600;
+}
+
+
+
+
+
+
+
+
+
+
+.custom-alert{
+    position: fixed;
+    top: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(14px);
+
+    color: #ff5c93;
+
+    padding: 16px 24px;
+    border-radius: 22px;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    border: 2px solid #ffd6e7;
+
+    box-shadow:
+    0 8px 25px rgba(255,105,180,0.15),
+    inset 0 0 8px rgba(255,255,255,0.6);
+
+    z-index: 99999;
+
+    animation: cutePop 0.4s ease;
+}
+
+@keyframes cutePop{
+    0%{
+        opacity:0;
+        transform:translateX(-50%) scale(0.7);
+    }
+
+    100%{
+        opacity:1;
+        transform:translateX(-50%) scale(1);
+    }
+}
+
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+
+  <div class="header-left">
+    <img src="/static/logo.png" class="logo">
+  </div>
+
+  <label class="theme-switch">
+    <input type="checkbox" id="themeToggle">
+    <span class="toggle-slider"></span>
+  </label>
+
+</div>
+<div class="container">
+  <div class="card">
+    <h3> Coach Check In / Out</h3>
+
+    <!-- <input type="text" id="locationInput" placeholder="Enter Location"> -->
+
+    <input
+    type="number"
+    id="startBallCount"
+    placeholder="Start Ball Count">
+
+<button onclick="checkIn()"> Check In</button>
+
+<input
+    type="text"
+    id="locationInput"
+    placeholder="Enter Location">
+
+<input
+    type="number"
+    id="endBallCount"
+    placeholder="End Ball Count">
+
+<button onclick="checkOut()"> Check Out</button>
+</div>
+</div>
+<a href="/" class="logout-link" onclick="logout()">
+  Logout
+</a>
+
+<div class="bottom-nav">
+    <a href="/">
+        <i class="fa-solid fa-house"></i>
+        <!-- <span>Home</span> -->
+    </a>
+
+    <a href="/coach-page/">
+        <i class="fa-solid fa-user-tie"></i>
+        <!-- <span>Coach</span> -->
+    </a>
+</div>
+
+<script>
+async function checkIn() {
+
+  let name = localStorage.getItem("coachName");
+  let location = document.getElementById("locationInput").value;
+  let startBallCount = document.getElementById("startBallCount").value;
+
+  if (!location) {
+    showAlert("Enter location!");
+    return;
+  }
+
+  if (!startBallCount) {
+    showAlert("Enter start ball count!");
+    return;
+  }
+
+  let response = await fetch("http://127.0.0.1:8000/coach/checkin/", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      name,
+      location,
+      startBallCount
+    })
+  });
+
+  let result = await response.json();
+
+  if (!response.ok) {
+    showAlert(result.error);
+    return;
+  }
+
+  showAlert(result.message);
+}
+
+
+
+async function checkOut() {
+
+  let name = localStorage.getItem("coachName");
+  let location = document.getElementById("locationInput").value;
+  let endBallCount = document.getElementById("endBallCount").value;
+
+  if (!location) {
+    showAlert("Enter location!");
+    return;
+  }
+
+  if (!endBallCount) {
+    showAlert("Enter end ball count!");
+    return;
+  }
+
+  let response = await fetch("http://127.0.0.1:8000/coach/checkout/", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      name,
+      location,
+      endBallCount
+    })
+  });
+
+  let result = await response.json();
+
+  if (!response.ok) {
+    showAlert(result.error);
+    return;
+  }
+
+  showAlert(result.message);
+}
+
+
+
+
+function goBack() {
+  window.location.href = "/";
+}
+
+const toggle = document.getElementById("themeToggle");
+
+toggle.addEventListener("change", () => {
+
+  if(toggle.checked){
+    document.body.classList.add("dark-mode");
+  } else {
+    document.body.classList.remove("dark-mode");
+  }
+
+});
+
+
+
+
+
+
+
+function logout() {
+
+    localStorage.removeItem("coachName");
+
+    document.getElementById("loginScreen").style.display = "flex";
+
+}
+
+
+
+
+
+
+
+function showAlert(message){
+
+    const alertBox = document.createElement("div");
+
+    alertBox.className = "custom-alert";
+    alertBox.innerText = message;
+
+    document.body.appendChild(alertBox);
+
+    setTimeout(() => {
+        alertBox.remove();
+    }, 1200);
+}
+
+</script>
+
+</body>
+</html>
+

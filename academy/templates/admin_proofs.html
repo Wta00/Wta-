@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Payment Proofs</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#fff7fa;
+    font-family:'Poppins',sans-serif;
+    padding:20px;
+}
+
+.title{
+    text-align:center;
+    color:#f5a9c2;
+    font-size:34px;
+    font-weight:700;
+    margin-bottom:28px;
+}
+
+#proofs{
+    display:flex;
+    flex-direction:column;
+    gap:24px;
+}
+
+.proof-card{
+    background:white;
+    padding:18px;
+    border-radius:26px;
+
+    box-shadow:0 6px 18px rgba(0,0,0,0.05);
+}
+
+.student-name{
+    font-size:22px;
+    font-weight:700;
+    color:#d94d75;
+
+    margin-bottom:16px;
+}
+
+.image-grid{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+}
+
+.image-grid img{
+    width:200px;
+    height:200px;
+
+    object-fit:cover;
+
+    border-radius:18px;
+
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+
+    transition:0.3s;
+}
+
+.image-grid img:hover{
+    transform:scale(1.03);
+}
+
+@media (max-width:768px){
+
+    .image-grid{
+        justify-content:center;
+    }
+
+    .image-grid img{
+        width:150px;
+        height:150px;
+    }
+
+}
+
+</style>
+</head>
+<body>
+
+<h1 class="title"> Payment Proofs</h1>
+
+<div id="proofs"></div>
+
+<script>
+
+fetch("http://127.0.0.1:8000/students/")
+.then(res => res.json())
+.then(data => {
+
+    let html = "";
+
+    data.forEach(s => {
+
+        let proofs = s.fees?.["2026-04"]?.proofs;
+
+        if(proofs && proofs.length > 0){
+
+            html += `
+            
+            <div class="proof-card">
+
+                <div class="student-name">
+                    ${s.name}
+                </div>
+
+                <div class="image-grid">
+            `;
+
+            proofs.forEach(p => {
+
+                html += `
+                
+                <img src="${p}">
+                
+                `;
+
+            });
+
+            html += `
+            
+                </div>
+
+            </div>
+            
+            `;
+        }
+
+    });
+
+    document.getElementById("proofs").innerHTML = html;
+
+});
+
+</script>
+
+</body>
+</html>
