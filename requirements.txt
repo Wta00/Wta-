@@ -1,3 +1,4 @@
 Django==4.2
 pymongo
 gunicorn
+django-cors-headers
