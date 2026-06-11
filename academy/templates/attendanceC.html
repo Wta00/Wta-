@@ -427,7 +427,7 @@ async function checkIn() {
     return;
   }
 
-  let response = await fetch("http://127.0.0.1:8000/coach/checkin/", {
+  let response = await fetch("/coach/checkin/", {
     method: "POST",
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify({
@@ -465,7 +465,7 @@ async function checkOut() {
     return;
   }
 
-  let response = await fetch("http://127.0.0.1:8000/coach/checkout/", {
+  let response = await fetch("/coach/checkout/", {
     method: "POST",
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify({

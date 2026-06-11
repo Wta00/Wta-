@@ -709,7 +709,7 @@ function closeStudentForm(){
 
 function loadStudents(branch){
 
-fetch(`http://127.0.0.1:8000/admin/students/?branch=${branch}`)
+fetch(`/admin/students/?branch=${branch}`)
 
 .then(res => res.json())
 
