@@ -81,13 +81,13 @@ def get_students(request):
     ]
     
     if not regex_branches:
-       return JsonResponse([], safe=False)
-   
+        return JsonResponse([], safe=False)
+
     students = list(
-        students_collection.find({
-            "$or": regex_branches
-        })
-    )
+       students_collection.find({
+        "$or": regex_branches
+    })
+)
 
     for s in students:
         s["_id"] = str(s["_id"])

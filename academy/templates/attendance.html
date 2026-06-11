@@ -1081,7 +1081,7 @@ let students = [];
 //  students
 let coach = localStorage.getItem("coachName");
 
-fetch(`http://127.0.0.1:8000/students/?coach=${coach}`)
+fetch(`/students/?coach=${coach}`)
 .then(res => res.json())
 .then(data => {
 
@@ -1177,7 +1177,7 @@ function submitData() {
         let fee = feeEl.checked;
 
 
-fetch("http://127.0.0.1:8000/attendance/", {
+fetch("/attendance/", { 
     method: "POST",
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify({
@@ -1205,7 +1205,7 @@ if (fee) {
 
     reader.onloadend = function () {
 
-        fetch("http://127.0.0.1:8000/fees/", {
+        fetch("/fees/", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
