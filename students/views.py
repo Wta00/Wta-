@@ -79,7 +79,10 @@ def get_students(request):
         }
         for b in branches
     ]
-
+    
+    if not regex_branches:
+       return JsonResponse([], safe=False)
+   
     students = list(
         students_collection.find({
             "$or": regex_branches
