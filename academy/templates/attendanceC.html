@@ -351,6 +351,54 @@ input::placeholder {
 }
 
 
+.branch-select{
+  width:100%;
+  padding:14px 16px;
+  margin:12px 0;
+
+  border:1.5px solid #e5e7eb;
+  border-radius:12px;
+
+  background:#f9fafb;
+  color:#374151;
+
+  font-size:16px;
+  font-weight:500;
+
+  outline:none;
+  transition:all 0.2s ease;
+
+  appearance:none;
+
+  background-image:
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M1.5 5l6 6 6-6'/%3E%3C/svg%3E");
+
+  background-repeat:no-repeat;
+  background-position:right 14px center;
+  background-size:14px;
+}
+
+.branch-select:focus{
+  border-color:#a6d3f2;
+  background:#fff;
+  box-shadow:0 0 0 3px rgba(166,211,242,0.3);
+}
+
+.field-label{
+  display:block;
+  margin-bottom:6px;
+  font-size:14px;
+  font-weight:600;
+  color:#6b7280;
+}
+@media (max-width:768px){
+
+  .branch-select{
+    font-size:16px;
+    padding:14px;
+  }
+
+}
 </style>
 </head>
 
@@ -374,8 +422,12 @@ input::placeholder {
 
     <!-- <input type="text" id="locationInput" placeholder="Enter Location"> -->
 
-<select id="locationInput">
-  <option value="">Select Branch</option>
+
+<label class="field-label">
+  Branch
+</label>
+<select id="locationInput" class="branch-select">
+  <option value="">📍 Select Branch</option>
 </select>
 
 <input
