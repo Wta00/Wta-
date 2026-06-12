@@ -4,6 +4,7 @@ from datetime import date
 from bson import ObjectId
 from django.views.decorators.csrf import csrf_exempt
 from datetime import date, datetime
+from django.utils import timezone
 from .mongo import students_collection, coach_log_collection
 from django.shortcuts import render
 def attendance_page(request):
@@ -256,7 +257,7 @@ def coach_checkin(request):
             start_ball_count = data.get("startBallCount")
 
             today = str(date.today())
-            current_time = datetime.now().strftime("%H:%M:%S")
+            current_time = timezone.localtime().strftime("%H:%M:%S")
 
             existing = coach_log_collection.find_one({
                 "name": name,
@@ -329,7 +330,7 @@ def coach_checkout(request):
 
                 {
                     "$set": {
-                        "logs.$.outTime": datetime.now().strftime("%H:%M:%S"),
+                        "logs.$.outTime": timezone.localtime().strftime("%H:%M:%S"),
                         "logs.$.endBallCount": int(end_ball_count)
                     }
                 }
