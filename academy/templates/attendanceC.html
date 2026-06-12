@@ -374,26 +374,23 @@ input::placeholder {
 
     <!-- <input type="text" id="locationInput" placeholder="Enter Location"> -->
 
-    <input
+<select id="locationInput">
+  <option value="">Select Branch</option>
+</select>
+
+<input
     type="number"
     id="startBallCount"
     placeholder="Start Ball Count">
 
-<button onclick="checkIn()"> Check In</button>
-
-<input
-    type="text"
-    id="locationInput"
-    placeholder="Enter Location">
+<button onclick="checkIn()">Check In</button>
 
 <input
     type="number"
     id="endBallCount"
     placeholder="End Ball Count">
 
-<button onclick="checkOut()"> Check Out</button>
-</div>
-</div>
+<button onclick="checkOut()">Check Out</button>
 <a href="/" class="logout-link" onclick="logout()">
   Logout
 </a>
@@ -445,6 +442,12 @@ async function checkIn() {
   }
 
   showAlert(result.message);
+
+  localStorage.setItem(
+  "startBallCount",
+  startBallCount
+);
+
 }
 
 
@@ -483,6 +486,9 @@ async function checkOut() {
   }
 
   showAlert(result.message);
+  localStorage.removeItem(
+  "startBallCount"
+);
 }
 
 
@@ -491,6 +497,19 @@ async function checkOut() {
 function goBack() {
   window.location.href = "/";
 }
+
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const savedCount =
+    localStorage.getItem("startBallCount");
+
+  if(savedCount){
+    document.getElementById("endBallCount").value =
+      savedCount;
+  }
+
+});
 
 const toggle = document.getElementById("themeToggle");
 
@@ -517,6 +536,70 @@ function logout() {
     document.getElementById("loginScreen").style.display = "flex";
 
 }
+
+
+
+
+
+
+const coachBranches = {
+
+  veslin: [
+    "Kalpakkam",
+    "S.p koil",
+    "Navy"
+  ],
+
+  dani: [
+    "Kalpakkam",
+    "Anupuram",
+    "Sadras"
+  ],
+
+  sujith: [
+    "Kalpakkam",
+    "Aqualily",
+    "Anupuram"
+  ],
+
+  jesurajan: [
+    "Kudankulam",
+    "Kingschool"
+  ],
+
+  wta: [
+    "Kalpakkam",
+    "S.p koil",
+    "Navy",
+    "Anupuram",
+    "Sadras",
+    "Aqualily",
+    "Kudankulam",
+    "Kingschool"
+  ]
+
+};
+
+
+
+const coach = localStorage.getItem("coachName");
+const branches = coachBranches[coach] || [];
+
+const select =
+  document.getElementById("locationInput");
+
+branches.forEach(branch => {
+
+  const option =
+    document.createElement("option");
+
+  option.value = branch;
+  option.textContent = branch;
+
+  select.appendChild(option);
+
+});
+
 
 
 
