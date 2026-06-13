@@ -510,10 +510,10 @@ h1{
     <input id="motherName" type="text" required>
 
     <label>Mother Phone</label>
-    <input id="motherPhone" type="tel" maxlength="10" required>
+    <input id="motherPhone" type="tel" maxlength="10">
 
     <label>Student Phone</label>
-    <input id="studentPhone" type="tel" maxlength="10" required>
+    <input id="studentPhone" type="tel" maxlength="10">
 
     <label>Join Year <span class="required">*</span></label>
     <select id="joinYear" required>
@@ -630,12 +630,12 @@ if(!/^\d{10}$/.test(fatherPhone)){
     return;
 }
 
-if(!/^\d{10}$/.test(motherPhone)){
+if(motherPhone && !/^\d{10}$/.test(motherPhone)){
     alert("Mother Phone must be 10 digits");
     return;
 }
 
-if(!/^\d{10}$/.test(studentPhone)){
+if(studentPhone && !/^\d{10}$/.test(studentPhone)){
     alert("Student Phone must be 10 digits");
     return;
 }
