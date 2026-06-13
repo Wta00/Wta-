@@ -509,15 +509,18 @@ h1{
     <label>Mother Name <span class="required">*</span></label>
     <input id="motherName" type="text" required>
 
-    <label>Mother Phone <span class="required">*</span></label>
+    <label>Mother Phone</label>
     <input id="motherPhone" type="tel" maxlength="10" required>
 
-    <label>Student Phone <span class="required">*</span></label>
+    <label>Student Phone</label>
     <input id="studentPhone" type="tel" maxlength="10" required>
 
     <label>Join Year <span class="required">*</span></label>
     <select id="joinYear" required>
         <option value="">Select Join Year</option>
+        <option>2017</option>
+        <option>2018</option>
+        <option>2019</option>
         <option>2020</option>
         <option>2021</option>
         <option>2022</option>
@@ -597,8 +600,6 @@ const fields = [
     "fatherName",
     "fatherPhone",
     "motherName",
-    "motherPhone",
-    "studentPhone",
     "joinYear",
     "batch",
     "court",
