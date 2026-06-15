@@ -955,6 +955,14 @@ div > button {
     Batch 2
 </div>
 
+<div onclick="sortStudents('courtA')">
+    Court A
+</div>
+
+<div onclick="sortStudents('courtB')">
+    Court B
+</div>
+
 <div onclick="sortStudents('morning')">
     Morning
 </div>
@@ -1317,6 +1325,22 @@ else if (type === "morningEvening") {
 
     sorted = students.filter(
         s => s.session === "Morning and Evening"
+    );
+
+}
+
+else if (type === "courtA") {
+
+    sorted = students.filter(
+        s => s.court === "A"
+    );
+
+}
+
+else if (type === "courtB") {
+
+    sorted = students.filter(
+        s => s.court === "B"
     );
 
 }

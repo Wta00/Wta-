@@ -430,14 +430,6 @@ h1{
 
     </div>
 
-    <div class="widget-card aqualily"
-         onclick="loadStudents('Aqualily')">
-
-        <div class="widget-title">Aqualily</div>
-
-        <p>View Students →</p>
-
-    </div>
 
     <div class="widget-card kudankulam"
          onclick="loadStudents('Kudankulam')">
@@ -555,7 +547,6 @@ h1{
     <option>Navy</option>
     <option>Anupuram</option>
     <option>Sadras</option>
-    <option>Aqualily</option>
     <option>Kudankulam</option>
     <option>Kingschool</option>
 
@@ -728,10 +719,11 @@ fetch(`/admin/students/?branch=${branch}`)
 
             <h3>${s.name}</h3>
 
-            <p>${s.batch}</p>
+            <p><b>Batch :</b> ${s.batch}</p>
 
-            <p>${s.session}</p>
+            <p><b>Court :</b> ${s.court}</p>
 
+            <p><b>Session :</b> ${s.session}</p>
         </div>
 
         `;
