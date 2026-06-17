@@ -33,25 +33,33 @@ def get_students(request):
 
     coach_branch = {
 
-    "veslin": [
+    "veslin wta": [
         "Kalpakkam",
-        "S.p koil",
+        "Anupuram",
         "Navy"
     ],
 
-    "dani": [
-        "Kalpakkam",
-        "Anupuram",
-        "Sadras"
+    "dani wta": [
+        "S.p koil",
+        "Zee School",
+        "Deva's program"
     ],
 
-    "sujith": [
+    "sujith wta": [
         "Kalpakkam",
-        "Aqualily",
+        "Navy",
         "Anupuram"
     ],
 
-    "jesurajan": [
+    "eso wta": [
+        "Kalpakkam"
+    ],
+
+    "mathesh wta": [
+        "Anupuram"
+    ],
+
+    "jesurajan wta": [
         "Kudankulam",
         "Kingschool"
     ],
@@ -61,12 +69,11 @@ def get_students(request):
         "S.p koil",
         "Navy",
         "Anupuram",
-        "Sadras",
-        "Aqualily",
         "Kudankulam",
-        "Kingschool"
+        "Kingschool",
+        "Deva's program",
+        "Zee School"
     ]
-
     }
 
     branches = coach_branch.get(coach, [])
