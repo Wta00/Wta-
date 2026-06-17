@@ -36,5 +36,9 @@ urlpatterns = [
         "coach-attendance/<str:name>/",
         views.coach_attendance_details
     ),
+    path(
+        "fee-status/",
+        views.fee_status,
+    ),
 
 ]
