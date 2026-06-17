@@ -425,3 +425,33 @@ def coach_attendance_details(request, name):
         coach.get("logs", []),
         safe=False
     )
+    
+
+def fee_status(request):
+
+    students = list(students_collection.find())
+
+    branches = {}
+
+    for s in students:
+
+        branch = s.get("branch", "Unknown")
+
+        if branch not in branches:
+            branches[branch] = {
+                "branch": branch,
+                "paid": [],
+                "notPaid": []
+            }
+
+        fees = s.get("fees", {})
+
+        if len(fees) > 0:
+            branches[branch]["paid"].append(s["name"])
+        else:
+            branches[branch]["notPaid"].append(s["name"])
+
+    return JsonResponse(
+        list(branches.values()),
+        safe=False
+    )

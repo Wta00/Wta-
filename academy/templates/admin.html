@@ -464,6 +464,23 @@ h1{
     </p>
 
 </div>
+
+<div class="widget-card"
+     style="background:url('/static/Admin Widget.jpg');
+            background-size:cover;
+            background-position:center;"
+     onclick="loadFeeStatus()">
+
+    <div class="widget-title">
+        Fee Status
+    </div>
+
+    <p>
+        View Paid / Pending →
+    </p>
+
+</div>
+
 </div>
 
 <button class="save-btn" onclick="openStudentForm()">
@@ -818,6 +835,60 @@ fetch(`/coach-attendance/${name}/`)
 }
 
 
+function loadFeeStatus(){
+
+fetch("/fee-status/")
+
+.then(res => res.json())
+
+.then(data => {
+
+    let html = "";
+
+    data.forEach(branch => {
+
+        html += `
+
+        <div class="student-card">
+
+            <h2>📍 ${branch.branch}</h2>
+
+            <h3 style="color:green;">
+                ✅ Paid (${branch.paid.length})
+            </h3>
+
+            ${
+                branch.paid.length
+                ? branch.paid.map(
+                    s => `<p>• ${s}</p>`
+                  ).join("")
+                : "<p>No Students</p>"
+            }
+
+            <hr>
+
+            <h3 style="color:red;">
+                ❌ Not Paid (${branch.notPaid.length})
+            </h3>
+
+            ${
+                branch.notPaid.length
+                ? branch.notPaid.map(
+                    s => `<p>• ${s}</p>`
+                  ).join("")
+                : "<p>No Students</p>"
+            }
+
+        </div>
+
+        `;
+    });
+
+    document.getElementById("students").innerHTML = html;
+
+});
+
+}
 
 </script>
 
