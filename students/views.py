@@ -92,10 +92,30 @@ def get_students(request):
         return JsonResponse([], safe=False)
 
     students = list(
-       students_collection.find({
+        students_collection.find({
         "$or": regex_branches
-    })
-)
+        })
+    )
+    if coach == "veslin wta":
+        students = [
+            s for s in students
+            if s.get("branch") != "Kalpakkam"
+            or s.get("session") == "Morning"
+        ]
+
+    elif coach == "sujith wta":
+        students = [
+            s for s in students
+            if s.get("branch") != "Kalpakkam"
+            or s.get("session") == "Evening"
+        ]
+
+    elif coach == "eso wta":
+        students = [
+            s for s in students
+            if s.get("branch") == "Kalpakkam"
+            and s.get("session") == "Evening"
+        ]
 
     for s in students:
         s["_id"] = str(s["_id"])
