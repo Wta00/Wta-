@@ -100,21 +100,21 @@ def get_students(request):
         students = [
             s for s in students
             if s.get("branch") != "Kalpakkam"
-            or s.get("session") == "Morning"
+            or s.get("session") in ["Morning", "Morning and Evening"]
         ]
 
     elif coach == "sujith wta":
         students = [
             s for s in students
             if s.get("branch") != "Kalpakkam"
-            or s.get("session") == "Evening"
+            or s.get("session") in ["Evening", "Morning and Evening"]
         ]
 
     elif coach == "eso wta":
         students = [
             s for s in students
             if s.get("branch") == "Kalpakkam"
-            and s.get("session") == "Evening"
+            and s.get("session") in ["Evening", "Morning and Evening"]
         ]
 
     for s in students:
