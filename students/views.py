@@ -454,11 +454,15 @@ def coach_attendance_details(request, name):
     )
     
 
+from datetime import datetime
+
 def fee_status(request):
 
     students = list(students_collection.find())
 
     branches = {}
+
+    current_month = datetime.now().strftime("%Y-%m")
 
     for s in students:
 
@@ -471,14 +475,12 @@ def fee_status(request):
                 "notPaid": []
             }
 
-        current_month = datetime.now().strftime("%Y-%m")
+        fees = s.get("fees", {})
 
-    fees = s.get("fees", {})
-
-    if current_month in fees and fees[current_month].get("paid"):
-        branches[branch]["paid"].append(s["name"])
-    else:
-        branches[branch]["notPaid"].append(s["name"])
+        if current_month in fees and fees[current_month].get("paid"):
+            branches[branch]["paid"].append(s["name"])
+        else:
+            branches[branch]["notPaid"].append(s["name"])
 
     return JsonResponse(
         list(branches.values()),
