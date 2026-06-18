@@ -40,5 +40,5 @@ urlpatterns = [
         "fee-status/",
         views.fee_status,
     ),
-
+    path("reset-test-data/", views.reset_test_data),
 ]
