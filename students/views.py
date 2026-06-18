@@ -471,12 +471,14 @@ def fee_status(request):
                 "notPaid": []
             }
 
-        fees = s.get("fees", {})
+        current_month = datetime.now().strftime("%Y-%m")
 
-        if len(fees) > 0:
-            branches[branch]["paid"].append(s["name"])
-        else:
-            branches[branch]["notPaid"].append(s["name"])
+    fees = s.get("fees", {})
+
+    if current_month in fees and fees[current_month].get("paid"):
+        branches[branch]["paid"].append(s["name"])
+    else:
+        branches[branch]["notPaid"].append(s["name"])
 
     return JsonResponse(
         list(branches.values()),
