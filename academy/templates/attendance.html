@@ -976,9 +976,6 @@ div > button {
     Evening
 </div>
 
-<div onclick="sortStudents('morningEvening')">
-    Morning and Evening
-</div>
 
             <div onclick="sortStudents('new'); closeSortMenu();">
                 <i class="fa-solid fa-bolt"></i>
@@ -1328,13 +1325,6 @@ else if (type === "evening") {
 
 }
 
-else if (type === "morningEvening") {
-
-    sorted = students.filter(
-        s => s.session === "Morning and Evening"
-    );
-
-}
 
 else if (type === "courtA") {
 
