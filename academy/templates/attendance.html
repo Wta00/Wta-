@@ -1225,7 +1225,7 @@ if (fee) {
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
                 studentId: s._id,
-                month: "2026-04",
+                month: new Date().toISOString().slice(0,7),
                 proof: reader.result
             })
         }).then(() => {
