@@ -487,18 +487,7 @@ def fee_status(request):
         safe=False
     )
     
-from django.http import HttpResponse
 
-def reset_test_data(request):
-    students_collection.update_many(
-        {},
-        {
-            "$set": {
-                "attendance": {},
-                "fees": {}
-            }
-        }
-    )
-    return HttpResponse("Done")   
+   
     
     
