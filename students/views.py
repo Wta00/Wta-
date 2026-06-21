@@ -518,6 +518,12 @@ def coach_fee_status(request):
     }
 
     branches = coach_branch.get(coach, [])
+    
+    if not branches:
+
+        return JsonResponse({
+            "access": False
+        })
 
     students = list(
         students_collection.find({

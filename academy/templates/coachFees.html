@@ -74,8 +74,31 @@ fetch(
 
     let html = "";
 
-    if(data.length === 0){
+    if(data.access === false){
 
+    html = `
+
+    <div class="card"
+         style="text-align:center;">
+
+        <i class="fa-solid fa-lock"
+           style="font-size:40px;
+                  color:#ff6b6b;">
+        </i>
+
+        <h3>Access Denied</h3>
+
+        <p>
+        You cannot access this page.
+        </p>
+
+    </div>
+
+    `;
+
+}
+
+else if(data.length === 0){
         html = `
         <div class="card">
 
