@@ -1443,6 +1443,13 @@ function showAlert(message){
 
 window.addEventListener("load", () => {
 
+    if(sessionStorage.getItem("loaderShown")){
+        document.getElementById("loader").style.display = "none";
+        return;
+    }
+
+    sessionStorage.setItem("loaderShown", "yes");
+
     setTimeout(() => {
 
         document.getElementById("loader").style.opacity = "0";
