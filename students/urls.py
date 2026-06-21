@@ -42,6 +42,11 @@ urlpatterns = [
     ),
     
     path(
+        "coach-fees/",
+        views.coach_fees_page
+    ),
+
+    path(
         "coach-fee-status/",
         views.coach_fee_status
     ),

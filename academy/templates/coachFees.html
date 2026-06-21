@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Pending Fees</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+body{
+    font-family:Poppins,sans-serif;
+    background:#fff;
+    padding:20px;
+}
+
+h2{
+    text-align:center;
+}
+
+.card{
+
+    background:white;
+
+    padding:15px;
+
+    margin-bottom:12px;
+
+    border-radius:14px;
+
+    box-shadow:0 8px 20px rgba(0,0,0,0.05);
+}
+
+.student{
+    padding:12px;
+
+    border-bottom:1px solid #eee;
+}
+
+.branch{
+    color:#888;
+    font-size:13px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>Pending Fees</h2>
+
+<div id="feeList"></div>
+
+<script>
+
+let coach =
+localStorage.getItem("coachName");
+
+fetch(
+`/coach-fee-status/?coach=${coach}`
+)
+
+.then(res => res.json())
+
+.then(data => {
+
+    let html = "";
+
+    if(data.length === 0){
+
+        html = `
+        <div class="card">
+
+            🎉 All fees paid
+
+        </div>
+        `;
+
+    }
+
+    else{
+
+        data.forEach(s => {
+
+            html += `
+
+            <div class="card">
+
+                <div class="student">
+
+                    <b>${s.name}</b>
+
+                    <div class="branch">
+
+                        ${s.branch}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            `;
+
+        });
+
+    }
+
+    document
+    .getElementById("feeList")
+    .innerHTML = html;
+
+});
+
+</script>
+
+</body>
+
+</html>

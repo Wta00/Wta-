@@ -487,6 +487,11 @@ def fee_status(request):
         safe=False
     )
     
+    
+
+def coach_fees_page(request):
+    return render(request, "coachFees.html")
+
 
 def coach_fee_status(request):
 
@@ -494,24 +499,35 @@ def coach_fee_status(request):
 
     coach_branch = {
 
-        "veslin wta": "Kalpakkam",
-        "dani wta": "S.p koil",
-        "jesurajan wta": "Kudankulam"
+        "veslin wta": [
+            "Kalpakkam",
+            "Anupuram",
+            "Navy"
+        ],
 
+        "dani wta": [
+            "S.p koil",
+            "Zee School",
+            "Deva's program"
+        ],
+
+        "jesurajan wta": [
+            "Kudankulam",
+            "Kingschool"
+        ]
     }
 
-    branch = coach_branch.get(coach)
-
-    if not branch:
-        return JsonResponse([], safe=False)
-
-    current_month = datetime.now().strftime("%Y-%m")
+    branches = coach_branch.get(coach, [])
 
     students = list(
         students_collection.find({
-            "branch": branch
+            "branch": {
+                "$in": branches
+            }
         })
     )
+
+    current_month = datetime.now().strftime("%Y-%m")
 
     unpaid = []
 
@@ -525,8 +541,8 @@ def coach_fee_status(request):
         ):
 
             unpaid.append({
-                "name": s["name"]
+                "name": s["name"],
+                "branch": s.get("branch", "")
             })
 
     return JsonResponse(unpaid, safe=False)
-    
