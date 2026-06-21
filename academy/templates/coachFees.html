@@ -246,7 +246,7 @@ h2{
 
 </div>
 
-<h2>Pending Fees</h2>
+<h2 id="pageTitle">Pending Fees</h2>
 
 <div id="feeList"></div>
 <br>
@@ -288,14 +288,14 @@ fetch(
 
     if(data.access === false){
 
-    html = `
+    document.getElementById("pageTitle").innerText =
+    "Restricted Page";
 
-    <div class="card"
-         style="text-align:center;">
+    html = `
+    <div class="card" style="text-align:center;">
 
         <i class="fa-solid fa-lock"
-           style="font-size:40px;
-                  color:#ff6b6b;">
+           style="font-size:40px;color:#ff6b6b;">
         </i>
 
         <h3>Access Denied</h3>
@@ -305,9 +305,7 @@ fetch(
         </p>
 
     </div>
-
     `;
-
 }
 
 else if(data.length === 0){
