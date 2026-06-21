@@ -488,6 +488,45 @@ def fee_status(request):
     )
     
 
-   
-    
+def coach_fee_status(request):
+
+    coach = request.GET.get("coach", "").lower()
+
+    coach_branch = {
+
+        "veslin wta": "Kalpakkam",
+        "dani wta": "S.p koil",
+        "jesurajan wta": "Kudankulam"
+
+    }
+
+    branch = coach_branch.get(coach)
+
+    if not branch:
+        return JsonResponse([], safe=False)
+
+    current_month = datetime.now().strftime("%Y-%m")
+
+    students = list(
+        students_collection.find({
+            "branch": branch
+        })
+    )
+
+    unpaid = []
+
+    for s in students:
+
+        fees = s.get("fees", {})
+
+        if (
+            current_month not in fees
+            or not fees[current_month].get("paid")
+        ):
+
+            unpaid.append({
+                "name": s["name"]
+            })
+
+    return JsonResponse(unpaid, safe=False)
     

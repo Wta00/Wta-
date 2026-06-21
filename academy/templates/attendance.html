@@ -929,6 +929,20 @@ div > button {
 </div>
 
 
+
+<div class="widget single-widget"
+     onclick="showFeeStatus()">
+
+    <div class="h6">
+        Fee Status
+    </div>
+
+    <p>
+        View Pending Fees →
+    </p>
+
+</div>
+
    <h3 class="section-title">Student Attendance</h3>
 
 
@@ -1442,6 +1456,61 @@ window.addEventListener("load", () => {
 });
 
 
+
+
+
+function showFeeStatus(){
+
+    let coach =
+    localStorage.getItem("coachName");
+
+    fetch(
+        `/coach-fee-status/?coach=${coach}`
+    )
+
+    .then(res => res.json())
+
+    .then(data => {
+
+        let html = `
+        <div class="card">
+
+            <h3>
+                Pending Fees
+            </h3>
+        `;
+
+        if(data.length === 0){
+
+            html += `
+            <p>
+            🎉 All fees paid
+            </p>
+            `;
+
+        }else{
+
+            data.forEach(s => {
+
+                html += `
+                <p>
+                ❌ ${s.name}
+                </p>
+                `;
+
+            });
+
+        }
+
+        html += `</div>`;
+
+        document
+        .querySelector(".student-list")
+        .innerHTML = html;
+
+    });
+
+}
 
 </script>
 

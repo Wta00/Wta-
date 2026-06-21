@@ -40,4 +40,9 @@ urlpatterns = [
         "fee-status/",
         views.fee_status,
     ),
+    
+    path(
+        "coach-fee-status/",
+        views.coach_fee_status
+    ),
 ]
