@@ -207,7 +207,7 @@ h3 {
     display: flex;
   }
 
-  
+
 
 h2{
     text-align:center;
@@ -242,10 +242,38 @@ h2{
 </head>
 
 <body>
+<div class="header">
+
+  <div class="header-left">
+    <img src="/static/logo.png" class="logo">
+  </div>
+
+  <label class="theme-switch">
+    <input type="checkbox" id="themeToggle">
+    <span class="toggle-slider"></span>
+  </label>
 
 <h2>Pending Fees</h2>
 
 <div id="feeList"></div>
+
+
+<div class="bottom-nav">
+    <a href="/">
+        <i class="fa-solid fa-house"></i>
+        <!-- <span>Home</span> -->
+    </a>
+
+     <a href="/coach-fees/">
+    <i class="fa-solid fa-money-check-dollar"></i>
+</a>
+
+
+    <a href="/coach-page/">
+        <i class="fa-solid fa-user-tie"></i>
+        <!-- <span>Coach</span> -->
+    </a>
+</div>
 
 <script>
 
