@@ -500,20 +500,28 @@ def coach_fee_status(request):
     coach_branch = {
 
         "veslin wta": [
-            "Kalpakkam",
-            "Anupuram",
-            "Navy"
+            "Anupuram"
         ],
 
         "dani wta": [
-            "S.p koil",
-            "Zee School",
-            "Deva's program"
+            "S.p koil"
+        ],
+        
+        "sujith wta": [
+            "Navy"
         ],
 
         "jesurajan wta": [
+            "Kudankulam"
+        ],
+        
+        "wta":[
             "Kudankulam",
-            "Kingschool"
+            "Navy",
+            "S.p Koil",
+            "Anupuram",
+            "Kalpakkam",
+            "Zee School"
         ]
     }
 
